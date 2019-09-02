@@ -1,78 +1,87 @@
 <template>
 	<div class="slider" @click="nextSlide(true)">
 		<div class="slider__count">
-			<span>{{ slider.current }} / {{ imageList.length }}</span>
+			<span>{{ slider.current }} / {{ slideList.length }}</span>
 		</div>
-		<div v-for="(image, idx) in imageList" :key="idx" class="slider__slide" :class="setStatus(idx)">
-			<div class="slider__container">
-				<img :src="image.src" :alt="image.description" class="slider__image" />
+		<div v-if="slideList">
+			<div
+				v-for="(image, idx) in slideList"
+				:key="idx"
+				class="slider__slide"
+				:class="setStatus(idx)"
+			>
+				<div class="slider__container">
+					<img
+						:src="image.src"
+						:alt="image.description"
+						class="slider__image"
+					/>
+				</div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import animationFrame from '@sil/animationframe';
 export default {
 	name: 'Slider',
 	props: {
-		startAt: {
-			type: Number,
-			default: 0
-		},
-		autoplay: {
-			type: Boolean,
-			default: true
-		},
-		autoplaySpeed: {
-			type: Number,
-			default: 3000
-		},
-		active: {
-			type: Boolean,
-			default: true
-		},
 		slides: {
 			type: Array,
 			default: () => []
+		},
+		settings: {
+			type: Object,
+			default: () => {}
 		}
 	},
 	data: () => ({
 		slider: {
-			//		current: this.$props.startAt || 0,
-			//	autoplay: this.$props.autoplay || true
-			current: 0,
-			autoplay: true
+			active: true,
+			autoplay: true,
+			autoplaySpeed: 3000,
+			startAt: 0,
+			current: this.$props.startAt || 0,
+			autoplay: this.$props.autoplay || true
 		}
 	}),
 	computed: {
 		slideList() {
-			return this.$props.slides;
+			if (this.$props.slides) return this.$props.slides;
+			else return [];
 		}
 	},
+	created() {
+		if (Object.keys(this.$props.settings).length > 0)
+			this.slider = Object.assign(this.slider, ...this.$props.settings);
+	},
 	mounted() {
+		const slider = this.slider
 		animationFrame(() => {
-			if (this.slider.autoplay)  this.nextSlide();
-		}, this.$props.autoplaySpeed);
+			if (slider.autoplay) this.nextSlide();
+		}, slider.autoplaySpeed);
 	},
 	methods: {
 		nextSlide(clicked = false) {
-			if (this.slider.current + 1 > this.slideList.length - 1) this.slider.current = 0;
-			else this.slider.current++;
-			
+			const slider = this.slider;
+			if (slider.current + 1 > this.slideList.length - 1) slider.current = 0;
+			else slider.current++;
+
 			if (clicked) {
-				this.slider.autoplay = false;
+				slider.autoplay = false;
 				setTimeout(() => {
-					this.slider.autoplay = true;
-				}, this.$props.autoplaySpeed);
+					slider.autoplay = true;
+				}, slider.autoplaySpeed);
 			}
 		},
 		setStatus(idx) {
 			if (this.slider.current == idx) return 'active';
 			else if (this.slider.current == idx - 1) return 'next';
 			else if (this.slider.current == idx + 1) return 'previous';
-			else if (this.slider.current == 0 && idx == this.imageList.length - 1) return 'previous';
-			else if (this.slider.current == this.imageList.length - 1 && idx == 0) return 'next';
+			else if (this.slider.current == 0 && idx == this.slideList.length - 1)
+				return 'previous';
+			else if (this.slider.current == this.slideList.length - 1 && idx == 0)
+				return 'next';
 		}
 	}
 };
