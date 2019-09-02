@@ -56,22 +56,20 @@ export default {
 			this.slider = Object.assign(this.slider, ...this.$props.settings);
 	},
 	mounted() {
-		const slider = this.slider
 		animationFrame(() => {
-			if (slider.autoplay) this.nextSlide();
-		}, slider.autoplaySpeed);
+			if (this.slider.autoplay) this.nextSlide();
+		}, this.slider.autoplaySpeed);
 	},
 	methods: {
 		nextSlide(clicked = false) {
-			const slider = this.slider;
-			if (slider.current + 1 > this.slideList.length - 1) slider.current = 0;
-			else slider.current++;
+			if (this.slider.current + 1 > this.slideList.length - 1) this.slider.current = 0;
+			else this.slider.current++;
 
 			if (clicked) {
-				slider.autoplay = false;
+				this.slider.autoplay = false;
 				setTimeout(() => {
-					slider.autoplay = true;
-				}, slider.autoplaySpeed);
+					this.slider.autoplay = true;
+				}, this.slider.autoplaySpeed);
 			}
 		},
 		setStatus(idx) {
