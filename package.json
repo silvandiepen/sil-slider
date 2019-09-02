@@ -14,7 +14,7 @@
 		"build:unpkg": "rollup --config build/rollup.config.js --format iife --file dist/slider.min.js"
 	},
 	"dependencies": {
-		"@sil/animationframe": "^0.0.2"
+		"@sil/animationframe": "^0.0.3"
 	},
 	"devDependencies": {
 		"minimist": "^1.2.0",
