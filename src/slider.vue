@@ -1,6 +1,5 @@
 <template>
 	<div class="slider" @click="nextSlide(true)">
-
 		<!-- The slides -->
 		<div v-if="slideList">
 			<div
@@ -18,18 +17,28 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- Counter  -->
-		<div class="slider__count" v-if="slider.counter">
+		<div class="slider__counter" v-if="slider.counter">
 			<span>{{ slider.current }} / {{ slideList.length }}</span>
 		</div>
-		
+
 		<!-- Navigation Arrows -->
 		<div class="slider__arrows" v-if="slider.arrows">
-			<button class="slider__arrow-prev" @click="prevSlide(true)"></button>
-			<button class="slider__arrow-next" @click="nextSlide(true)"></button>
+			<button
+				class="slider__arrow slider__arrow--prev"
+				@click="prevSlide(true)"
+			>
+				<span class="slider__arrow-text">Previous</span>
+			</button>
+			<button
+				class="slider__arrow slider__arrow--next"
+				@click="nextSlide(true)"
+			>
+				<span class="slider__arrow-text">Next</span>
+			</button>
 		</div>
-		
+
 		<!-- Navigation bars -->
 		<div class="slider__nav" v-if="slider.navigation">
 			<ul class="slider__nav-list">
@@ -37,6 +46,7 @@
 					class="slider__nav-item"
 					v-for="(slide, idx) in slideList"
 					:key="idx"
+					:class="navClass(idx)"
 				>
 					<button class="slider__nav-button">{{ idx }}</button>
 				</li>
@@ -82,7 +92,7 @@ export default {
 		}
 	},
 	created() {
-		this.slider = {...this.slider, ...this.$props.settings };
+		this.slider = { ...this.slider, ...this.$props.settings };
 	},
 	mounted() {
 		animationFrame(() => {
@@ -122,67 +132,12 @@ export default {
 				return 'previous';
 			else if (this.slider.current == this.slideList.length - 1 && idx == 0)
 				return 'next';
+		},
+		navClass(idx) {
+			if (this.slider.current == idx) return ['active'];
+			else if (this.slider.current == idx - 1) return ['next'];
+			else if (this.slider.current == idx + 1) return ['previous'];
 		}
 	}
 };
 </script>
-
-<style lang="scss">
-.slider {
-	width: 100vw;
-	height: 100vh;
-	max-height: 100vw;
-	position: relative;
-
-	&__slide {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100vw;
-		height: 100vh;
-		max-height: 100vw;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		--scale: calc(1 - (4.16667 * 4) / 100);
-		transform: scale(var(--scale));
-		transition: transform 0.3s ease-in, opacity 0.3s ease-in-out;
-
-		&,
-		&.next {
-			opacity: 0;
-		}
-		&.previous {
-			opacity: 0;
-		}
-		&.active {
-			opacity: 1;
-			--scale: calc(1 - (4.16667 * 2) / 100);
-			.slider__image-element {
-				transform: scale(1);
-			}
-		}
-	}
-	&__container {
-		overflow: hidden;
-		position: relative;
-		display: inline-block;
-	}
-	&__image {
-		max-width: 100vw;
-		max-height: 100vh;
-		transition: transform 5s ease-out;
-	}
-	&__count {
-		position: absolute;
-		z-index: 2;
-		top: 0;
-		right: 0;
-		font-weight: bold;
-		background-color: var(--slider-count-bg, black);
-		color: var(--slider-count-text, white);
-		font-size: 12px;
-		padding: 0.5rem;
-	}
-}
-</style>
