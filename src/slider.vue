@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import animationFrame from '@sil/animationframe';
+
 export default {
 	name: 'Slider',
 	props: {
