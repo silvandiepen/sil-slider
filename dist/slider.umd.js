@@ -1,12 +1,56 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@sil/animationframe')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@sil/animationframe'], factory) :
-	(global = global || self, factory(global.slider = {}, global.animationFrame));
-}(this, function (exports, animationFrame) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+	typeof define === 'function' && define.amd ? define(['exports'], factory) :
+	(global = global || self, factory(global.slider = {}));
+}(this, function (exports) { 'use strict';
 
-	animationFrame = animationFrame && animationFrame.hasOwnProperty('default') ? animationFrame['default'] : animationFrame;
-
-	var this$1 = undefined;
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	var script = {
 		name: 'Slider',
@@ -20,16 +64,21 @@
 				default: function () {}
 			}
 		},
-		data: function () { return ({
-			slider: {
-				active: true,
-				autoplay: true,
-				autoplaySpeed: 3000,
-				startAt: 0,
-				current: this$1.$props.startAt || 0,
-				autoplay: this$1.$props.autoplay || true
-			}
-		}); },
+		data: function data() {
+			return {
+				slider: {
+					active: true,
+					autoplay: true,
+					autoplaySpeed: 3000,
+					navigation: false,
+					arrows: false,
+					counter: false,
+					startAt: 0,
+					current: this.$props.startAt || 0,
+					autoplay: this.$props.autoplay || true
+				}
+			};
+		},
 		computed: {
 			slideList: function slideList() {
 				if (this.$props.slides) { return this.$props.slides; }
@@ -52,8 +101,24 @@
 				var this$1 = this;
 				if ( clicked === void 0 ) clicked = false;
 
-				if (this.slider.current + 1 > this.slideList.length - 1) { this.slider.current = 0; }
+				if (this.slider.current + 1 > this.slideList.length - 1)
+					{ this.slider.current = 0; }
 				else { this.slider.current++; }
+
+				if (clicked) {
+					this.slider.autoplay = false;
+					setTimeout(function () {
+						this$1.slider.autoplay = true;
+					}, this.slider.autoplaySpeed);
+				}
+			},
+			prevSlide: function prevSlide(clicked) {
+				var this$1 = this;
+				if ( clicked === void 0 ) clicked = false;
+
+				if (this.slider.current - 1 < 0)
+					{ this.slider.current = this.slideList.length; }
+				else { this.slider.current = this.slider.current - 1; }
 
 				if (clicked) {
 					this.slider.autoplay = false;
@@ -233,14 +298,6 @@
 	      }
 	    },
 	    [
-	      _c("div", { staticClass: "slider__count" }, [
-	        _c("span", [
-	          _vm._v(
-	            _vm._s(_vm.slider.current) + " / " + _vm._s(_vm.slideList.length)
-	          )
-	        ])
-	      ]),
-	      _vm._v(" "),
 	      _vm.slideList
 	        ? _c(
 	            "div",
@@ -264,6 +321,57 @@
 	            }),
 	            0
 	          )
+	        : _vm._e(),
+	      _vm._v(" "),
+	      _vm.slider.counter
+	        ? _c("div", { staticClass: "slider__count" }, [
+	            _c("span", [
+	              _vm._v(
+	                _vm._s(_vm.slider.current) +
+	                  " / " +
+	                  _vm._s(_vm.slideList.length)
+	              )
+	            ])
+	          ])
+	        : _vm._e(),
+	      _vm._v(" "),
+	      _vm.slider.arrows
+	        ? _c("div", { staticClass: "slider__arrows" }, [
+	            _c("button", {
+	              staticClass: "slider__arrow-prev",
+	              on: {
+	                click: function($event) {
+	                  return _vm.prevSlide(true)
+	                }
+	              }
+	            }),
+	            _vm._v(" "),
+	            _c("button", {
+	              staticClass: "slider__arrow-next",
+	              on: {
+	                click: function($event) {
+	                  return _vm.nextSlide(true)
+	                }
+	              }
+	            })
+	          ])
+	        : _vm._e(),
+	      _vm._v(" "),
+	      _vm.slider.navigation
+	        ? _c("div", { staticClass: "slider__nav" }, [
+	            _c(
+	              "ul",
+	              { staticClass: "slider__nav-list" },
+	              _vm._l(_vm.slideList, function(slide, idx) {
+	                return _c("li", { key: idx, staticClass: "slider__nav-item" }, [
+	                  _c("button", { staticClass: "slider__nav-button" }, [
+	                    _vm._v(_vm._s(idx))
+	                  ])
+	                ])
+	              }),
+	              0
+	            )
+	          ])
 	        : _vm._e()
 	    ]
 	  )
@@ -274,7 +382,7 @@
 	  /* style */
 	  var __vue_inject_styles__ = function (inject) {
 	    if (!inject) { return }
-	    inject("data-v-02d0023a_0", { source: ".slider {\n  width: 100vw;\n  height: 100vh;\n  max-height: 100vw;\n  position: relative;\n}\n.slider__slide {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100vw;\n  height: 100vh;\n  max-height: 100vw;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  --scale: calc(1 - (4.16667 * 4) / 100);\n  transform: scale(var(--scale));\n  transition: transform 0.3s ease-in, opacity 0.3s ease-in-out;\n}\n.slider__slide, .slider__slide.next {\n  opacity: 0;\n}\n.slider__slide.previous {\n  opacity: 0;\n}\n.slider__slide.active {\n  opacity: 1;\n  --scale: calc(1 - (4.16667 * 2) / 100);\n}\n.slider__slide.active .slider__image-element {\n  transform: scale(1);\n}\n.slider__container {\n  overflow: hidden;\n  position: relative;\n  display: inline-block;\n}\n.slider__image {\n  max-width: 100vw;\n  max-height: 100vh;\n  transition: transform 5s ease-out;\n}\n.slider__count {\n  position: absolute;\n  z-index: 2;\n  top: 0;\n  right: 0;\n  font-weight: bold;\n  background-color: var(--slider-count-bg, black);\n  color: var(--slider-count-text, white);\n  font-size: 12px;\n  padding: 0.5rem;\n}\n\n/*# sourceMappingURL=slider.vue.map */", map: {"version":3,"sources":["/Users/silvandiepen/repos/_packages/sil-slider/src/slider.vue","slider.vue"],"names":[],"mappings":"AA0FA;EACA,YAAA;EACA,aAAA;EACA,iBAAA;EACA,kBAAA;ACzFA;AD2FA;EACA,kBAAA;EACA,MAAA;EACA,OAAA;EACA,YAAA;EACA,aAAA;EACA,iBAAA;EACA,aAAA;EACA,mBAAA;EACA,uBAAA;EACA,sCAAA;EACA,8BAAA;EACA,4DAAA;ACzFA;AD2FA;EAEA,UAAA;AC1FA;AD4FA;EACA,UAAA;AC1FA;AD4FA;EACA,UAAA;EACA,sCAAA;AC1FA;AD2FA;EACA,mBAAA;ACzFA;AD6FA;EACA,gBAAA;EACA,kBAAA;EACA,qBAAA;AC3FA;AD6FA;EACA,gBAAA;EACA,iBAAA;EACA,iCAAA;AC3FA;AD6FA;EACA,kBAAA;EACA,UAAA;EACA,MAAA;EACA,QAAA;EACA,iBAAA;EACA,+CAAA;EACA,sCAAA;EACA,eAAA;EACA,eAAA;AC3FA;;AAEA,qCAAqC","file":"slider.vue","sourcesContent":["<template>\n\t<div class=\"slider\" @click=\"nextSlide(true)\">\n\t\t<div class=\"slider__count\">\n\t\t\t<span>{{ slider.current }} / {{ slideList.length }}</span>\n\t\t</div>\n\t\t<div v-if=\"slideList\">\n\t\t\t<div\n\t\t\t\tv-for=\"(image, idx) in slideList\"\n\t\t\t\t:key=\"idx\"\n\t\t\t\tclass=\"slider__slide\"\n\t\t\t\t:class=\"setStatus(idx)\"\n\t\t\t>\n\t\t\t\t<div class=\"slider__container\">\n\t\t\t\t\t<img\n\t\t\t\t\t\t:src=\"image.src\"\n\t\t\t\t\t\t:alt=\"image.description\"\n\t\t\t\t\t\tclass=\"slider__image\"\n\t\t\t\t\t/>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport animationFrame from '@sil/animationframe';\n\nexport default {\n\tname: 'Slider',\n\tprops: {\n\t\tslides: {\n\t\t\ttype: Array,\n\t\t\tdefault: () => []\n\t\t},\n\t\tsettings: {\n\t\t\ttype: Object,\n\t\t\tdefault: () => {}\n\t\t}\n\t},\n\tdata: () => ({\n\t\tslider: {\n\t\t\tactive: true,\n\t\t\tautoplay: true,\n\t\t\tautoplaySpeed: 3000,\n\t\t\tstartAt: 0,\n\t\t\tcurrent: this.$props.startAt || 0,\n\t\t\tautoplay: this.$props.autoplay || true\n\t\t}\n\t}),\n\tcomputed: {\n\t\tslideList() {\n\t\t\tif (this.$props.slides) return this.$props.slides;\n\t\t\telse return [];\n\t\t}\n\t},\n\tcreated() {\n\t\tif (Object.keys(this.$props.settings).length > 0)\n\t\t\tthis.slider = Object.assign(this.slider, ...this.$props.settings);\n\t},\n\tmounted() {\n\t\tanimationFrame(() => {\n\t\t\tif (this.slider.autoplay) this.nextSlide();\n\t\t}, this.slider.autoplaySpeed);\n\t},\n\tmethods: {\n\t\tnextSlide(clicked = false) {\n\t\t\tif (this.slider.current + 1 > this.slideList.length - 1) this.slider.current = 0;\n\t\t\telse this.slider.current++;\n\n\t\t\tif (clicked) {\n\t\t\t\tthis.slider.autoplay = false;\n\t\t\t\tsetTimeout(() => {\n\t\t\t\t\tthis.slider.autoplay = true;\n\t\t\t\t}, this.slider.autoplaySpeed);\n\t\t\t}\n\t\t},\n\t\tsetStatus(idx) {\n\t\t\tif (this.slider.current == idx) return 'active';\n\t\t\telse if (this.slider.current == idx - 1) return 'next';\n\t\t\telse if (this.slider.current == idx + 1) return 'previous';\n\t\t\telse if (this.slider.current == 0 && idx == this.slideList.length - 1)\n\t\t\t\treturn 'previous';\n\t\t\telse if (this.slider.current == this.slideList.length - 1 && idx == 0)\n\t\t\t\treturn 'next';\n\t\t}\n\t}\n};\n</script>\n\n<style lang=\"scss\">\n.slider {\n\twidth: 100vw;\n\theight: 100vh;\n\tmax-height: 100vw;\n\tposition: relative;\n\n\t&__slide {\n\t\tposition: absolute;\n\t\ttop: 0;\n\t\tleft: 0;\n\t\twidth: 100vw;\n\t\theight: 100vh;\n\t\tmax-height: 100vw;\n\t\tdisplay: flex;\n\t\talign-items: center;\n\t\tjustify-content: center;\n\t\t--scale: calc(1 - (4.16667 * 4) / 100);\n\t\ttransform: scale(var(--scale));\n\t\ttransition: transform 0.3s ease-in, opacity 0.3s ease-in-out;\n\n\t\t&,\n\t\t&.next {\n\t\t\topacity: 0;\n\t\t}\n\t\t&.previous {\n\t\t\topacity: 0;\n\t\t}\n\t\t&.active {\n\t\t\topacity: 1;\n\t\t\t--scale: calc(1 - (4.16667 * 2) / 100);\n\t\t\t.slider__image-element {\n\t\t\t\ttransform: scale(1);\n\t\t\t}\n\t\t}\n\t}\n\t&__container {\n\t\toverflow: hidden;\n\t\tposition: relative;\n\t\tdisplay: inline-block;\n\t}\n\t&__image {\n\t\tmax-width: 100vw;\n\t\tmax-height: 100vh;\n\t\ttransition: transform 5s ease-out;\n\t}\n\t&__count {\n\t\tposition: absolute;\n\t\tz-index: 2;\n\t\ttop: 0;\n\t\tright: 0;\n\t\tfont-weight: bold;\n\t\tbackground-color: var(--slider-count-bg, black);\n\t\tcolor: var(--slider-count-text, white);\n\t\tfont-size: 12px;\n\t\tpadding: 0.5rem;\n\t}\n}\n</style>\n",".slider {\n  width: 100vw;\n  height: 100vh;\n  max-height: 100vw;\n  position: relative;\n}\n.slider__slide {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100vw;\n  height: 100vh;\n  max-height: 100vw;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  --scale: calc(1 - (4.16667 * 4) / 100);\n  transform: scale(var(--scale));\n  transition: transform 0.3s ease-in, opacity 0.3s ease-in-out;\n}\n.slider__slide, .slider__slide.next {\n  opacity: 0;\n}\n.slider__slide.previous {\n  opacity: 0;\n}\n.slider__slide.active {\n  opacity: 1;\n  --scale: calc(1 - (4.16667 * 2) / 100);\n}\n.slider__slide.active .slider__image-element {\n  transform: scale(1);\n}\n.slider__container {\n  overflow: hidden;\n  position: relative;\n  display: inline-block;\n}\n.slider__image {\n  max-width: 100vw;\n  max-height: 100vh;\n  transition: transform 5s ease-out;\n}\n.slider__count {\n  position: absolute;\n  z-index: 2;\n  top: 0;\n  right: 0;\n  font-weight: bold;\n  background-color: var(--slider-count-bg, black);\n  color: var(--slider-count-text, white);\n  font-size: 12px;\n  padding: 0.5rem;\n}\n\n/*# sourceMappingURL=slider.vue.map */"]}, media: undefined });
+	    inject("data-v-f9c72334_0", { source: ".slider {\n  width: 100vw;\n  height: 100vh;\n  max-height: 100vw;\n  position: relative;\n}\n.slider__slide {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100vw;\n  height: 100vh;\n  max-height: 100vw;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  --scale: calc(1 - (4.16667 * 4) / 100);\n  transform: scale(var(--scale));\n  transition: transform 0.3s ease-in, opacity 0.3s ease-in-out;\n}\n.slider__slide, .slider__slide.next {\n  opacity: 0;\n}\n.slider__slide.previous {\n  opacity: 0;\n}\n.slider__slide.active {\n  opacity: 1;\n  --scale: calc(1 - (4.16667 * 2) / 100);\n}\n.slider__slide.active .slider__image-element {\n  transform: scale(1);\n}\n.slider__container {\n  overflow: hidden;\n  position: relative;\n  display: inline-block;\n}\n.slider__image {\n  max-width: 100vw;\n  max-height: 100vh;\n  transition: transform 5s ease-out;\n}\n.slider__count {\n  position: absolute;\n  z-index: 2;\n  top: 0;\n  right: 0;\n  font-weight: bold;\n  background-color: var(--slider-count-bg, black);\n  color: var(--slider-count-text, white);\n  font-size: 12px;\n  padding: 0.5rem;\n}\n\n/*# sourceMappingURL=slider.vue.map */", map: {"version":3,"sources":["/Users/silvandiepen/repos/_packages/sil-slider/src/slider.vue","slider.vue"],"names":[],"mappings":"AAiIA;EACA,YAAA;EACA,aAAA;EACA,iBAAA;EACA,kBAAA;AChIA;ADkIA;EACA,kBAAA;EACA,MAAA;EACA,OAAA;EACA,YAAA;EACA,aAAA;EACA,iBAAA;EACA,aAAA;EACA,mBAAA;EACA,uBAAA;EACA,sCAAA;EACA,8BAAA;EACA,4DAAA;AChIA;ADkIA;EAEA,UAAA;ACjIA;ADmIA;EACA,UAAA;ACjIA;ADmIA;EACA,UAAA;EACA,sCAAA;ACjIA;ADkIA;EACA,mBAAA;AChIA;ADoIA;EACA,gBAAA;EACA,kBAAA;EACA,qBAAA;AClIA;ADoIA;EACA,gBAAA;EACA,iBAAA;EACA,iCAAA;AClIA;ADoIA;EACA,kBAAA;EACA,UAAA;EACA,MAAA;EACA,QAAA;EACA,iBAAA;EACA,+CAAA;EACA,sCAAA;EACA,eAAA;EACA,eAAA;AClIA;;AAEA,qCAAqC","file":"slider.vue","sourcesContent":["<template>\n\t<div class=\"slider\" @click=\"nextSlide(true)\">\n\n\t\t<!-- The slides -->\n\t\t<div v-if=\"slideList\">\n\t\t\t<div\n\t\t\t\tv-for=\"(image, idx) in slideList\"\n\t\t\t\t:key=\"idx\"\n\t\t\t\tclass=\"slider__slide\"\n\t\t\t\t:class=\"setStatus(idx)\"\n\t\t\t>\n\t\t\t\t<div class=\"slider__container\">\n\t\t\t\t\t<img\n\t\t\t\t\t\t:src=\"image.src\"\n\t\t\t\t\t\t:alt=\"image.description\"\n\t\t\t\t\t\tclass=\"slider__image\"\n\t\t\t\t\t/>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t\n\t\t<!-- Counter  -->\n\t\t<div class=\"slider__count\" v-if=\"slider.counter\">\n\t\t\t<span>{{ slider.current }} / {{ slideList.length }}</span>\n\t\t</div>\n\t\t\n\t\t<!-- Navigation Arrows -->\n\t\t<div class=\"slider__arrows\" v-if=\"slider.arrows\">\n\t\t\t<button class=\"slider__arrow-prev\" @click=\"prevSlide(true)\"></button>\n\t\t\t<button class=\"slider__arrow-next\" @click=\"nextSlide(true)\"></button>\n\t\t</div>\n\t\t\n\t\t<!-- Navigation bars -->\n\t\t<div class=\"slider__nav\" v-if=\"slider.navigation\">\n\t\t\t<ul class=\"slider__nav-list\">\n\t\t\t\t<li\n\t\t\t\t\tclass=\"slider__nav-item\"\n\t\t\t\t\tv-for=\"(slide, idx) in slideList\"\n\t\t\t\t\t:key=\"idx\"\n\t\t\t\t>\n\t\t\t\t\t<button class=\"slider__nav-button\">{{ idx }}</button>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tname: 'Slider',\n\tprops: {\n\t\tslides: {\n\t\t\ttype: Array,\n\t\t\tdefault: () => []\n\t\t},\n\t\tsettings: {\n\t\t\ttype: Object,\n\t\t\tdefault: () => {}\n\t\t}\n\t},\n\tdata() {\n\t\treturn {\n\t\t\tslider: {\n\t\t\t\tactive: true,\n\t\t\t\tautoplay: true,\n\t\t\t\tautoplaySpeed: 3000,\n\t\t\t\tnavigation: false,\n\t\t\t\tarrows: false,\n\t\t\t\tcounter: false,\n\t\t\t\tstartAt: 0,\n\t\t\t\tcurrent: this.$props.startAt || 0,\n\t\t\t\tautoplay: this.$props.autoplay || true\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\tslideList() {\n\t\t\tif (this.$props.slides) return this.$props.slides;\n\t\t\telse return [];\n\t\t}\n\t},\n\tcreated() {\n\t\tif (Object.keys(this.$props.settings).length > 0)\n\t\t\tthis.slider = Object.assign(this.slider, ...this.$props.settings);\n\t},\n\tmounted() {\n\t\tanimationFrame(() => {\n\t\t\tif (this.slider.autoplay) this.nextSlide();\n\t\t}, this.slider.autoplaySpeed);\n\t},\n\tmethods: {\n\t\tnextSlide(clicked = false) {\n\t\t\tif (this.slider.current + 1 > this.slideList.length - 1)\n\t\t\t\tthis.slider.current = 0;\n\t\t\telse this.slider.current++;\n\n\t\t\tif (clicked) {\n\t\t\t\tthis.slider.autoplay = false;\n\t\t\t\tsetTimeout(() => {\n\t\t\t\t\tthis.slider.autoplay = true;\n\t\t\t\t}, this.slider.autoplaySpeed);\n\t\t\t}\n\t\t},\n\t\tprevSlide(clicked = false) {\n\t\t\tif (this.slider.current - 1 < 0)\n\t\t\t\tthis.slider.current = this.slideList.length;\n\t\t\telse this.slider.current = this.slider.current - 1;\n\n\t\t\tif (clicked) {\n\t\t\t\tthis.slider.autoplay = false;\n\t\t\t\tsetTimeout(() => {\n\t\t\t\t\tthis.slider.autoplay = true;\n\t\t\t\t}, this.slider.autoplaySpeed);\n\t\t\t}\n\t\t},\n\t\tsetStatus(idx) {\n\t\t\tif (this.slider.current == idx) return 'active';\n\t\t\telse if (this.slider.current == idx - 1) return 'next';\n\t\t\telse if (this.slider.current == idx + 1) return 'previous';\n\t\t\telse if (this.slider.current == 0 && idx == this.slideList.length - 1)\n\t\t\t\treturn 'previous';\n\t\t\telse if (this.slider.current == this.slideList.length - 1 && idx == 0)\n\t\t\t\treturn 'next';\n\t\t}\n\t}\n};\n</script>\n\n<style lang=\"scss\">\n.slider {\n\twidth: 100vw;\n\theight: 100vh;\n\tmax-height: 100vw;\n\tposition: relative;\n\n\t&__slide {\n\t\tposition: absolute;\n\t\ttop: 0;\n\t\tleft: 0;\n\t\twidth: 100vw;\n\t\theight: 100vh;\n\t\tmax-height: 100vw;\n\t\tdisplay: flex;\n\t\talign-items: center;\n\t\tjustify-content: center;\n\t\t--scale: calc(1 - (4.16667 * 4) / 100);\n\t\ttransform: scale(var(--scale));\n\t\ttransition: transform 0.3s ease-in, opacity 0.3s ease-in-out;\n\n\t\t&,\n\t\t&.next {\n\t\t\topacity: 0;\n\t\t}\n\t\t&.previous {\n\t\t\topacity: 0;\n\t\t}\n\t\t&.active {\n\t\t\topacity: 1;\n\t\t\t--scale: calc(1 - (4.16667 * 2) / 100);\n\t\t\t.slider__image-element {\n\t\t\t\ttransform: scale(1);\n\t\t\t}\n\t\t}\n\t}\n\t&__container {\n\t\toverflow: hidden;\n\t\tposition: relative;\n\t\tdisplay: inline-block;\n\t}\n\t&__image {\n\t\tmax-width: 100vw;\n\t\tmax-height: 100vh;\n\t\ttransition: transform 5s ease-out;\n\t}\n\t&__count {\n\t\tposition: absolute;\n\t\tz-index: 2;\n\t\ttop: 0;\n\t\tright: 0;\n\t\tfont-weight: bold;\n\t\tbackground-color: var(--slider-count-bg, black);\n\t\tcolor: var(--slider-count-text, white);\n\t\tfont-size: 12px;\n\t\tpadding: 0.5rem;\n\t}\n}\n</style>\n",".slider {\n  width: 100vw;\n  height: 100vh;\n  max-height: 100vw;\n  position: relative;\n}\n.slider__slide {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100vw;\n  height: 100vh;\n  max-height: 100vw;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  --scale: calc(1 - (4.16667 * 4) / 100);\n  transform: scale(var(--scale));\n  transition: transform 0.3s ease-in, opacity 0.3s ease-in-out;\n}\n.slider__slide, .slider__slide.next {\n  opacity: 0;\n}\n.slider__slide.previous {\n  opacity: 0;\n}\n.slider__slide.active {\n  opacity: 1;\n  --scale: calc(1 - (4.16667 * 2) / 100);\n}\n.slider__slide.active .slider__image-element {\n  transform: scale(1);\n}\n.slider__container {\n  overflow: hidden;\n  position: relative;\n  display: inline-block;\n}\n.slider__image {\n  max-width: 100vw;\n  max-height: 100vh;\n  transition: transform 5s ease-out;\n}\n.slider__count {\n  position: absolute;\n  z-index: 2;\n  top: 0;\n  right: 0;\n  font-weight: bold;\n  background-color: var(--slider-count-bg, black);\n  color: var(--slider-count-text, white);\n  font-size: 12px;\n  padding: 0.5rem;\n}\n\n/*# sourceMappingURL=slider.vue.map */"]}, media: undefined });
 
 	  };
 	  /* scoped */

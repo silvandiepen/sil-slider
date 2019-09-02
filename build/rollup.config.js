@@ -14,7 +14,10 @@ const config = {
   input: 'src/index.js',
   output: {
     name: 'slider',
-    exports: 'named'
+    exports: 'named',
+    globals: {
+      '@sil/animationframe': 'AnimationFrame'
+    }    
   },
   plugins: [
     commonjs(),
