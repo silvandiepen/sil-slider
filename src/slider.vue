@@ -82,8 +82,7 @@ export default {
 		}
 	},
 	created() {
-		if (Object.keys(this.$props.settings).length > 0)
-			this.slider = Object.assign(this.slider, ...this.$props.settings);
+		this.slider = {...this.slider, ...this.$props.settings };
 	},
 	mounted() {
 		animationFrame(() => {
