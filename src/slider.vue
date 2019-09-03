@@ -1,7 +1,7 @@
 <template>
 	<div class="slider" @click="nextSlide(true)">
 		<!-- The slides -->
-		<div v-if="slideList">
+		<div v-if="slideList" class="slider__slides">
 			<div
 				v-for="(image, idx) in slideList"
 				:key="idx"
@@ -75,7 +75,7 @@ export default {
 			slider: {
 				active: true,
 				autoplay: true,
-				autoplaySpeed: 3000,
+				autoplaySpeed: 10000,
 				navigation: false,
 				arrows: false,
 				counter: false,

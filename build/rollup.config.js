@@ -3,6 +3,7 @@ import vue from 'rollup-plugin-vue'
 import buble from 'rollup-plugin-buble'
 import uglify from 'rollup-plugin-uglify-es'
 import commonjs from 'rollup-plugin-commonjs'
+import scss from 'rollup-plugin-scss'
 import minimist from 'minimist'
 
 const argv = minimist(process.argv.slice(2))
@@ -19,11 +20,15 @@ const config = {
       '@sil/animationframe': 'AnimationFrame'
     }    
   },
-  plugins: [
+  plugins: [ 
     commonjs(),
     vue({
       css: true,
       compileTemplate: true
+    }),
+    scss({    
+      output: 'dist/slider.css',    
+      failOnError: true
     }),
     buble({objectAssign: true})
   ]

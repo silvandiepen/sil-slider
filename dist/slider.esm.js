@@ -19,7 +19,7 @@ var script = {
 			slider: {
 				active: true,
 				autoplay: true,
-				autoplaySpeed: 3000,
+				autoplaySpeed: 10000,
 				navigation: false,
 				arrows: false,
 				counter: false,
@@ -200,6 +200,7 @@ var __vue_render__ = function() {
       _vm.slideList
         ? _c(
             "div",
+            { staticClass: "slider__slides" },
             _vm._l(_vm.slideList, function(image, idx) {
               return _c(
                 "div",
@@ -327,6 +328,55 @@ __vue_render__._withStripped = true;
     undefined
   );
 
+//
+//
+//
+//
+//
+//
+
+var script$1 = {
+	name: 'slide'
+};
+
+/* script */
+var __vue_script__$1 = script$1;
+
+/* template */
+var __vue_render__$1 = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c("div", { staticClass: "slider-slide" })
+};
+var __vue_staticRenderFns__$1 = [];
+__vue_render__$1._withStripped = true;
+
+  /* style */
+  var __vue_inject_styles__$1 = undefined;
+  /* scoped */
+  var __vue_scope_id__$1 = undefined;
+  /* module identifier */
+  var __vue_module_identifier__$1 = undefined;
+  /* functional template */
+  var __vue_is_functional_template__$1 = false;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var slide = normalizeComponent_1(
+    { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
+    __vue_inject_styles__$1,
+    __vue_script__$1,
+    __vue_scope_id__$1,
+    __vue_is_functional_template__$1,
+    __vue_module_identifier__$1,
+    undefined,
+    undefined
+  );
+
 // Import vue component
 
 // install function executed by Vue.use()
@@ -335,6 +385,7 @@ function install(Vue) {
 	install.installed = true;
 
 	Vue.component('slider', slider);
+	Vue.component('slide', slide);
 }
 
 // Create module definition for Vue.use()

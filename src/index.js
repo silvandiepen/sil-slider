@@ -1,5 +1,8 @@
 // Import vue component
 import slider from './slider.vue';
+import slide from './slide.vue';
+
+import './slider.scss'
 
 // install function executed by Vue.use()
 export function install(Vue) {
@@ -7,6 +10,7 @@ export function install(Vue) {
 	install.installed = true;
 
 	Vue.component('slider', slider);
+	Vue.component('slide', slide);
 }
 
 // Create module definition for Vue.use()
