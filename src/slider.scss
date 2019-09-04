@@ -114,7 +114,8 @@
 			color: var(--slider-arrow-focus-color, white);
 		}
 	}
-
+	
+	
 	&__nav {
 		position: absolute;
 		bottom: 0;
@@ -172,7 +173,7 @@
 
 		&.active {
 			.slider__nav-button::before {
-				animation: activeItem var(--slider-time, 10000ms) linear forwards;
+				animation: activeItem var(--slider-time, 3000ms) linear forwards;
 				@at-root {
 					@keyframes activeItem {
 						0% {
