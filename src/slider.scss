@@ -6,6 +6,11 @@
 	width: 100vw;
 	height: 100vh;
 	max-height: 100vw;
+	
+	@media only screen and (max-width: 750px) {
+		height: 100vh; 
+		max-height: 100vh; 
+	}
 
 	&__slide {
 		--scale: calc(1 - (((100 / 24) * 4) / 100));
@@ -23,6 +28,11 @@
 		transform: scale(var(--scale)) translate(var(--translate));
 		transition: transform 0.3s ease-in, opacity 0.3s ease-in-out;
 		opacity: var(--opacity, 0);
+		
+		@media only screen and (max-width: 750px) {
+			height: 100vh; 
+			max-height: 100vh; 
+		}
 
 		&.next {
 			z-index: 1;
@@ -128,6 +138,7 @@
 		height: 100%;
 		border: none;
 		text-indent: -999em;
+		background-color: var(--slider-nav-button-background, transparent);
 		&::after,
 		&::before {
 			content: '';
@@ -150,7 +161,7 @@
 		display: flex;
 		width: 100%;
 		height: 2rem;
-		background: transparent;
+		background-color: var(--slider-nav-button-background, transparent);
 		opacity: 1;
 		& + .slider__nav-item {
 			margin-left: var(--slider-nav-space, 1rem);
