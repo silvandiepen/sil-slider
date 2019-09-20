@@ -12,6 +12,7 @@
 					<img
 						:src="image.src"
 						:alt="image.description"
+						:class="image.classes"
 						class="slider__image"
 					/>
 				</div>

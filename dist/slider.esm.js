@@ -1,3 +1,4 @@
+/* eslint-disable */
 import animationFrame from '@sil/animationframe';
 
 //
@@ -213,6 +214,7 @@ var __vue_render__ = function() {
                   _c("div", { staticClass: "slider__container" }, [
                     _c("img", {
                       staticClass: "slider__image",
+                      class: image.classes,
                       attrs: { src: image.src, alt: image.description }
                     })
                   ])

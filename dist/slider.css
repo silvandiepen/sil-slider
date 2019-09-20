@@ -142,7 +142,7 @@
     .slider__nav-item:focus {
       outline: none; }
     .slider__nav-item.active .slider__nav-button::before {
-      animation: activeItem var(--slider-time, 10000ms) linear forwards; }
+      animation: activeItem var(--slider-time, 3000ms) linear forwards; }
 
 @keyframes activeItem {
   0% {
